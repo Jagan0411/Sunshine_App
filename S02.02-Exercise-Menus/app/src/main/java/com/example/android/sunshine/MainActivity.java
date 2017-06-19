@@ -18,6 +18,9 @@ package com.example.android.sunshine;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.android.sunshine.data.SunshinePreferences;
@@ -28,7 +31,7 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mWeatherTextView;
+    private TextView weatherDisplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
          * Using findViewById, we get a reference to our TextView from xml. This allows us to
          * do things like set the text of the TextView.
          */
-        mWeatherTextView = (TextView) findViewById(R.id.tv_weather_data);
+        weatherDisplay = (TextView) findViewById(R.id.tv_weather_data);
 
         /* Once all of our views are setup, we can load the weather data. */
         loadWeatherData();
@@ -51,10 +54,10 @@ public class MainActivity extends AppCompatActivity {
      */
     private void loadWeatherData() {
         String location = SunshinePreferences.getPreferredWeatherLocation(this);
-        new FetchWeatherTask().execute(location);
+        new WeatherTask().execute(location);
     }
 
-    public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
+    public class WeatherTask extends AsyncTask<String, Void, String[]> {
 
         @Override
         protected String[] doInBackground(String... params) {
@@ -91,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                  * TextView. Later, we'll learn about a better way to display lists of data.
                  */
                 for (String weatherString : weatherData) {
-                    mWeatherTextView.append((weatherString) + "\n\n\n");
+                    weatherDisplay.append((weatherString) + "\n\n\n");
                 }
             }
         }
@@ -102,7 +105,29 @@ public class MainActivity extends AppCompatActivity {
     // TODO (4) Set the title of the menu item to "Refresh" using strings.xml
 
     // TODO (5) Override onCreateOptionsMenu to inflate the menu for this Activity
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.forecast,menu);
+        return true;
+    }
+
     // TODO (6) Return true to display the menu
 
     // TODO (7) Override onOptionsItemSelected to handle clicks on the refresh button
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem)
+    {
+        int id = menuItem.getItemId();
+        if(id == R.id.action_refresh)
+        {
+            weatherDisplay.setText("");
+            loadWeatherData();
+            return true;
+        }
+        return super.onOptionsItemSelected(menuItem);
+    }
+
 }

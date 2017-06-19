@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     // TODO (5) Create a class that extends AsyncTask to perform network requests
     public class WeatherTask extends AsyncTask<String,Void,String []> {
-        
+
         // TODO (6) Override the doInBackground method to perform your network requests
         @Override
         protected String[] doInBackground(String... params) {
