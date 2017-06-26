@@ -2,7 +2,6 @@ package com.example.android.sunshine;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,19 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
 
     public ForecastAdapter()
     {
+
+    }
+
+
+    public class ForecastAdapterViewHolder extends RecyclerView.ViewHolder {
+
+        public final TextView mWeatherTextView;
+
+        public ForecastAdapterViewHolder(View view)
+        {
+            super(view);
+            mWeatherTextView = (TextView) view.findViewById(R.id.tv_weather_data);
+        }
 
     }
 
@@ -46,25 +58,13 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
         {
             return 0;
         }
-            return mWeatherData.length;
+        return mWeatherData.length;
     }
 
     void setWeatherData(String weatherData[])
     {
         mWeatherData = weatherData;
         notifyDataSetChanged();
-    }
-
-    public class ForecastAdapterViewHolder extends RecyclerView.ViewHolder {
-
-        public final TextView mWeatherTextView;
-
-        public ForecastAdapterViewHolder(View view)
-        {
-            super(view);
-            mWeatherTextView = (TextView) view.findViewById(R.id.tv_weather_data);
-        }
-
     }
 
 }
